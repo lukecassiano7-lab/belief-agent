@@ -6,7 +6,7 @@ This repository explores and studies when communication helps—and when it caus
 
 ## Project Structure
 
-This project is organized as a modular system, with each branch exploring a different component of uncertainty-aware artificial cognition.
+This project is organized into a modular system:
 
 - **Branch A — Belief Inference Under Uncertainty**  
   Explicit belief representations, entropy-based uncertainty, and communication between agents.
@@ -15,13 +15,13 @@ This project is organized as a modular system, with each branch exploring a diff
   Memory systems that store and retrieve belief–outcome associations with attractor-like dynamics.
 
 - **Branch C — Information Integration Across Time**  
-  Temporal stability, recovery from perturbation, and integration vs fragmentation.
+  Intend to explore temporal stability, recovery from perturbation, and integration vs fragmentation.
 
 - **Branch D — Uncertainty-Weighted Learning**  
-  Confidence-modulated updates and comparisons to standard error-driven learning.
+  Intend to explore confidence-modulated updates and comparisons to standard error-driven learning.
 
 - **Branch E — Self-Modeling Agents**  
-  Agents that represent uncertainty about their own reliability and adjust behavior accordingly.
+  Intend to produce agents that represent uncertainty about their own reliability and adjust behavior accordingly.
 
 
 Current status:
