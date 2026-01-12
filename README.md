@@ -24,12 +24,6 @@ This project is organized as a modular system, with each branch exploring a diff
   Agents that represent uncertainty about their own reliability and adjust behavior accordingly.
 
 
-In a two-agent inference task with asymmetric evidence quality,
-unidirectional communication (Sensor --> Language) improved the
-weaker (Lang) agent's accuracy from 0.391 to 0.651, while maintaining the
-stronger (Sensor) agent's accuracy at 0.923, which yielded a 0.613 joint
-accuracy over 1000 episodes.
-
 Current status:
 - Branch A: Belief inference under uncertainty (complete)
 - Branch B: Associative memory (in progress)
