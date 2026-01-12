@@ -34,7 +34,6 @@ def sample_true_goal(rng: np.random.Generator) -> int:
     return int(rng.integers(0, 3))
 
 
-# ---- Sensor (beacon) evidence ----
 def sample_sensor_obs(true_goal: int, rng: np.random.Generator, noise: float = 0.30) -> int:
     """
     Sensor outputs an observation token in {0,1,2} meaning 'points to A/B/C'.
@@ -58,14 +57,6 @@ def sensor_likelihood(obs: int, correct_prob: float = 0.70) -> np.ndarray:
     return m
 
 
-# ---- Language evidence (constraint tokens) ----
-# We represent "messages" and "language clues" as small structured tokens.
-# ("NOT", x) means: "not goal x"
-# ("EITHER", x, y) means: "either goal x or goal y"
-#
-# We'll encode tokens as tuples:
-#   ("NOT", x, -1) or ("EITHER", x, y)
-
 def truthful_language_tokens(true_goal: int):
     """
     "Truthful" tokens are constraints that do NOT exclude the true goal.
@@ -74,11 +65,9 @@ def truthful_language_tokens(true_goal: int):
       truthful EITHER tokens: either A or B ; either B or C
     """
     tokens = []
-    # NOT tokens are truthful if they say NOT something that isn't the true goal
     for x in (0, 1, 2):
         if x != true_goal:
             tokens.append(("NOT", x, -1))
-    # EITHER tokens are truthful if they include the true goal
     for a, b in ((0, 1), (0, 2), (1, 2)):
         if true_goal in (a, b):
             tokens.append(("EITHER", a, b))
@@ -115,16 +104,14 @@ def sample_language_token(true_goal: int, rng: np.random.Generator, noise: float
 def token_to_likelihood(tok, floor: float = 0.05) -> np.ndarray:
     """
     Convert constraint token into likelihood distribution over G.
-    This is your "language model" in V1: interpretable and hand-defined.
+    This is the 'language model':
     """
     kind, x, y = tok
     if kind == "NOT":
-        # "not X" => uniform over other two
         m = np.array([(1.0 -  floor) / 2]*3, dtype=float)
         m[x] = floor
         return m
     if kind == "EITHER":
-        # "either X or Y" => mass on X and Y
         m = np.array([floor, floor, floor], dtype=float)
         remaining = 1.0 - floor
         m[x] = remaining / 2
@@ -158,7 +145,6 @@ def belief_to_message(belief: np.ndarray, decisive: float = 0.85):
     top_prob = float(np.max(belief))
     low = int(np.argmin(belief))
 
-    # argsort descending gives indices from highest prob to lowest
     sorted_idx = list(np.argsort(-belief))
     top1, top2 = int(sorted_idx[0]), int(sorted_idx[1])
     a, b = sorted((top1, top2))
@@ -176,8 +162,8 @@ def belief_to_message(belief: np.ndarray, decisive: float = 0.85):
 class Agent:
     def __init__(self, name: str, alpha: float = 1.0):
         self.name = name
-        self.belief = np.array([1/3, 1/3, 1/3], dtype=float)  # start uninformative
-        self.alpha = alpha  # controls how strongly messages affect you
+        self.belief = np.array([1/3, 1/3, 1/3], dtype=float)  # starts uninformative
+        self.alpha = alpha  # controls strength of msg influence
 
     def H(self) -> float:
         """Uncertainty = entropy of belief."""
@@ -198,12 +184,7 @@ class Agent:
     def fuse_message(self, msg_likelihood: np.ndarray, sender_precision: float):
         """
         Fuse received message as additional evidence, weighted by sender precision.
-
-        b_new ∝ b_old * (msg_likelihood)^(alpha * sender_precision)
-
-        Why exponent?
-        - If sender_precision=0, exponent≈0 -> msg contributes ~1 (no effect)
-        - If sender_precision high, msg likelihood is sharpened and matters more
+        b_new (aplha) b_old * (msg_likelihood)^(alpha * sender_precision)
         """
         w = min(self.alpha * float(sender_precision), 1.5)
         if w <= 1e-9:
@@ -228,7 +209,6 @@ def run_episode(rng: np.random.Generator, steps: int = 6, noise: float = 0.30, v
         print()
 
     for t in range(1, steps + 1):
-        # 1) Each agent receives private evidence and updates its belief.
 
         obs = sample_sensor_obs(true_goal, rng, noise=noise)
         S.update_private(sensor_likelihood(obs, correct_prob=0.70))
@@ -236,12 +216,9 @@ def run_episode(rng: np.random.Generator, steps: int = 6, noise: float = 0.30, v
         clue = sample_language_token(true_goal, rng, noise=noise)
         L.update_private(token_to_likelihood(clue))
 
-        # 2) Each agent sends a constraint message derived from its belief.
         msg_S = belief_to_message(S.belief)
         msg_L = belief_to_message(L.belief)
 
-        # 3) Each agent parses the other's message into a likelihood,
-        #    then fuses it using precision weighting.
         like_from_S = token_to_likelihood(msg_S)
         like_from_L = token_to_likelihood(msg_L)
 
@@ -298,3 +275,4 @@ if __name__ == "__main__":
     for nz in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6]:
         stats = run_many(seed=1, episodes=1000, steps=6, noise=float(nz))
         print(f"noise={nz:.2f}  {stats}")
+
