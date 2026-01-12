@@ -40,16 +40,16 @@ At every timestep, agents:
 3. Communicate a structured message derived from their belief
 4. Fuse incoming messages weighted by the sender’s confidence (precision)
 
-Uncertainty is explicitly represented as entropy and modulates how much agents trust one another.
+Uncertainty is explicitly represented as entropy and modulates agent trust.
 
-This setup serves as a parallel to human cognition and group reasoning:
+This setup also serves as a parallel to human cognition and group reasoning, as it contains:
 
-- Strong perceptual evidence (sensor agent) vs. weak, ambiguous testimony (language agent)
+- Perceptual evidence (sensor agent) vs. Ambiguous testimony (language agent)
 - Overconfident early claims cause belief collapse
 - Herding and agreement without correctness
 - Trust calibration based on confidence and past reliability
 
-The project demonstrates that naive symmetric communication can degrade collective performance — a failure mode observed in human groups, social media dynamics, and multi-agent systems.
+In this project, naive symmetric communication is shown to degrade collective performance. This is a failure mode often observed in human groups, social media dynamics, and multi-agent systems.
 
 I evaluated under three main communication types:
 
