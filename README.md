@@ -9,6 +9,12 @@ This project explores how multiple agents can infer a hidden goal under noisy, a
 
 Inspired by Bayesian cognition, predictive processing, and human collaborative reasoning, the system studies when communication is beneficial, when it isn't, and how confidence-weighted messaging stabilizes inference.
 
+## TL;DR
+
+This project demonstrates that **naive symmetric communication between agents can degrade collective inference under uncertainty**, while **confidence-weighted, asymmetric communication improves group accuracy and prevents misinformation cascades**.
+
+Agents explicitly represent belief distributions, uncertainty (entropy), and trust, allowing failure modes like herding, belief collapse, and overconfidence to be visualized and mitigated.
+
 ## Project Structure
 
 This project is organized into a modular branch system:
@@ -20,18 +26,17 @@ This project is organized into a modular branch system:
   Memory systems that store and retrieve belief–outcome associations with attractor-like dynamics.
 
 - **Branch C: Information Integration Across Time**  
-  Intend to explore temporal stability, recovery from perturbation, and integration vs fragmentation.
+  Designed to explore temporal stability, recovery from perturbation, and integration vs fragmentation.
 
 - **Branch D: Uncertainty-Weighted Learning**  
-  Intend to explore confidence-modulated updates and comparisons to standard error-driven learning.
+  Explore confidence-modulated updates and comparisons to standard error-driven learning.
 
 - **Branch E: Self-Modeling Agents**  
-  Intend to produce agents that represent uncertainty about their own reliability and adjust behavior accordingly.
+  Designed to support agents that represent uncertainty about their own reliability and adjust behavior accordingly.
 
 ***This current repository is only a demonstration of Branch A, and will be edited to accommodate future progress***
 
 ## Branch A — Belief Inference Under Uncertainty
-**When agents have asymmetric reliability, unidirectional, confidence-weighted communication, group accuracy is significantly improved and misinformation cascades are prevented.**
 
 *Each agent maintains a probability distribution over three possible goals: **A, B, or C.***
 At every timestep, agents:
