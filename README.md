@@ -2,7 +2,7 @@
 An explicit uncertainty-aware cognitive agent that models latent belief states and performs inference given incomplete information. 
 
 
-<img width="478" height="510" alt="bidirectionalgrid" src="https://github.com/user-attachments/assets/86b82af7-6020-4260-bb9f-b68a17d03069" />
+<img style="width:60%; height:auto;" alt="bidirectionalgrid" src="https://github.com/user-attachments/assets/86b82af7-6020-4260-bb9f-b68a17d03069" />
 ## About
 
 **Uncertainty-Aware Multi-Agent Inference**
