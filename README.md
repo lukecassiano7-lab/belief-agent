@@ -11,32 +11,29 @@ Inspired by Bayesian cognition, predictive processing, and human collaborative r
 
 ## Project Structure
 
-This project is organized into a modular system:
+This project is organized into a modular branch system:
 
-- **Branch A — Belief Inference Under Uncertainty**  
+- **Branch A: Belief Inference Under Uncertainty**  
   Explicit belief representations, entropy-based uncertainty, and communication between agents.
 
-- **Branch B — Associative Memory**  
+- **Branch B: Associative Memory**  
   Memory systems that store and retrieve belief–outcome associations with attractor-like dynamics.
 
-- **Branch C — Information Integration Across Time**  
+- **Branch C: Information Integration Across Time**  
   Intend to explore temporal stability, recovery from perturbation, and integration vs fragmentation.
 
-- **Branch D — Uncertainty-Weighted Learning**  
+- **Branch D: Uncertainty-Weighted Learning**  
   Intend to explore confidence-modulated updates and comparisons to standard error-driven learning.
 
-- **Branch E — Self-Modeling Agents**  
+- **Branch E: Self-Modeling Agents**  
   Intend to produce agents that represent uncertainty about their own reliability and adjust behavior accordingly.
 
-
-Current status:
-- Branch A: Belief inference under uncertainty (complete)
-- Branch B: Associative memory (in progress)
+***This current repository is only a demonstration of Branch A, and will be edited to accommodate future progress***
 
 ## Branch A — Belief Inference Under Uncertainty
 **When agents have asymmetric reliability, unidirectional, confidence-weighted communication, group accuracy is significantly improved and misinformation cascades are prevented.**
 
-# Each agent maintains a probability distribution over three possible goals (A, B, C).
+*Each agent maintains a probability distribution over three possible goals: **A, B, or C.***
 At every timestep, agents:
 1. Receive private evidence (sensor observations or language constraints)
 2. Update beliefs via Bayesian inference
@@ -62,7 +59,7 @@ I evaluated under three main communication types:
 
 Each condition is tested across increasing noise levels in private evidence.
 
-###Noise Sweep Results
+### Noise Sweep Results
 
 *Sensor Agent Correctness*
 
@@ -83,6 +80,52 @@ Each condition is tested across increasing noise levels in private evidence.
 
 <img width="486" height="375" alt="agreementnoisesweep" src="https://github.com/user-attachments/assets/5154f848-4189-4b75-b719-f55fa449150a" />
 
+### Key Observations
+- Without communication, the sensor agent performs well while the language agent fails under noise.
+- Bidirectional communication improves agreement but reduces sensor accuracy at high noise.
+- Unidirectional communication preserves sensor performance while substantially improving the weaker agent.
+- Agreement is more likely to reflect correctness under unidirectional communication.
+
+### Failure Modes Observed
+- Hard logical constraints (such as setting floor probability to zero) can permanently eliminate true hypotheses under noise
+- Early misleading messages cause irreversible belief collapse
+- Symmetric trust amplifies misinformation when evidence quality is asymmetric
+
+To mitigate this issues, I implemented:
+- Soft probabilistic constraints (no hard zeros)
+- Confidence-weighted message fusion
+- Capped trust influence to prevent runaway updates
+
+### Implemented Visualization
+***Here are three test cases labeled by communication mode. Each case shows the movement (tracked by a colored trail) of each agent, as they converge upon a final goal.***
+
+No Communication:
+<img width="441" height="476" alt="nocommgrid" src="https://github.com/user-attachments/assets/8d983fb6-1a2b-4b0d-b173-73780ae6e384" />
+
+Bidirectional Communication:
+<img width="478" height="510" alt="bidirectionalgrid" src="https://github.com/user-attachments/assets/86b82af7-6020-4260-bb9f-b68a17d03069" />
+
+Unidirectional Communication:
+<img width="441" height="473" alt="unidirectionalgrid" src="https://github.com/user-attachments/assets/220ed7bf-fc99-406c-b10d-9f861087a331" />
+
+This presents an immediate visual representation of belief collapse, recovery, and herding dynamics immediately visible. Agents will literally move toward hypotheses as confidence increases, regardless of accuracy.
+
+### What is Demonstrated by this?
+
+- Bayesian reasoning and uncertainty modeling
+- Multi-agent communication design
+- Failure analysis of collaborative AI systems
+- Interpretable probabilistic representations
+- Experimental rigor (ablations, noise sweeps)
+- UI-driven debugging and visualization
+
+### Running the Demo
+
+```bash
+pip install -r requirements.txt
+python -m streamlit run app.py
+
+
+
 *Further details, results, and analysis are documented inline in code and experiment logs.
 A full README will be written once all branches are complete.*
-
