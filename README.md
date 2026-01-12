@@ -34,7 +34,9 @@ Current status:
 - Branch B: Associative memory (in progress)
 
 ## Branch A — Belief Inference Under Uncertainty
-**When agents have asymmetric reliability, unidirectional, uncertainty-weighted communication significantly improves group accuracy and prevents misinformation cascades. Each agent maintains a probability distribution over three possible goals (A, B, C).**
+**When agents have asymmetric reliability, unidirectional, confidence-weighted communication, group accuracy is significantly improved and misinformation cascades are prevented.**
+
+# Each agent maintains a probability distribution over three possible goals (A, B, C).
 At every timestep, agents:
 1. Receive private evidence (sensor observations or language constraints)
 2. Update beliefs via Bayesian inference
@@ -45,12 +47,12 @@ Uncertainty is explicitly represented as entropy and modulates how much agents t
 
 This setup serves as a parallel to human cognition and group reasoning:
 
-• Strong perceptual evidence (sensor agent) vs. weak, ambiguous testimony (language agent)
-• Overconfident early claims cause belief collapse
-• Herding and agreement without correctness
-• Trust calibration based on confidence and past reliability
+- Strong perceptual evidence (sensor agent) vs. weak, ambiguous testimony (language agent)
+- Overconfident early claims cause belief collapse
+- Herding and agreement without correctness
+- Trust calibration based on confidence and past reliability
 
-The project demonstrates that naive symmetric communication can degrade collective performance — a failure mode also observed in human groups, social media dynamics, and multi-agent AI systems.
+The project demonstrates that naive symmetric communication can degrade collective performance — a failure mode observed in human groups, social media dynamics, and multi-agent systems.
 
 I evaluated under three main communication types:
 
